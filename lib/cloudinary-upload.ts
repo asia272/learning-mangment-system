@@ -28,9 +28,17 @@ export async function uploadToCloudinary(
         `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
         { method: "POST", body: form }
     );
-    if (!res.ok) throw new Error("Upload failed");
 
-    const data = await res.json();
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+        console.error("Cloudinary upload error:", data);
+
+        throw new Error(
+            data?.error?.message ?? `Cloudinary upload failed (${res.status})`
+        );
+    }
+
     return {
         url: data.secure_url,
         publicId: data.public_id,
