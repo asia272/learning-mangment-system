@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  imageUrl  String?
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  courses     Course[]
+  enrollments Enrollment[]
+  reviews     CourseReview[]
+}
+
+model Course {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text // rich text (HTML) from the editor
+
+  thumbnailUrl      String
+  thumbnailPublicId String? // Cloudinary id, needed to delete the image later
+
+  price           Int       @default(0) // in cents: $10.99 = 1099
+  discountPercent Int       @default(0) // 0 to 100
+  discountEndsAt  DateTime? // powers "5 days left at this price"
+
+  isPublished Boolean @default(false) // Live (true) / Private (false)
+
+  instructorId String
+  instructor   User   @relation(fields: [instructorId], references: [id], onDelete: Restrict)
+
+  chapters    Chapter[]
+  enrollments Enrollment[]
+  reviews     CourseReview[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([instructorId])
+  @@index([isPublished, createdAt])
+}
+
+model Chapter {
+  id    String @id @default(cuid())
+  title String
+  order Int // position inside the course: 1, 2, 3...
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lectures Lecture[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId, order])
+}
+
+model Lecture {
+  id       String @id @default(cuid())
+  title    String
+  duration Int // in seconds
+  order    Int // position inside the chapter
+
+  videoUrl      String
+  videoPublicId String? // Cloudinary id for the video
+  isPreviewFree Boolean @default(false) // lets non-enrolled users watch it
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId, order])
+}
+
+model Enrollment {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  amountPaid Int // price actually paid, in cents (snapshot)
+  currency   String @default("usd")
+
+  stripeSessionId       String? @unique // makes the webhook safe to retry
+  stripePaymentIntentId String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId]) // a student cannot buy the same course twice
+  @@index([courseId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model CourseReview {
+  id      String  @id @default(cuid())
+  rating  Int // 1 to 5
+  comment String? @db.Text
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId]) // one review per student per course
+  @@index([courseId])
+}
