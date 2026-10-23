@@ -15,8 +15,8 @@ export function InstructorSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-16 shrink-0 border-r border-gray-300 md:w-64">
-            <nav className="flex flex-col pt-4">
+        <aside className="w-16 shrink-0 overflow-y-auto border-r border-gray-300 md:w-72">
+            <nav className="flex flex-col pt-1">
                 {links.map(({ href, label, icon: Icon }) => {
                     const active =
                         href === "/instructor" ? pathname === href : pathname.startsWith(href);
@@ -25,7 +25,7 @@ export function InstructorSidebar() {
                         <Link
                             key={href}
                             href={href}
-                            className={`flex items-center justify-center gap-4 py-5 text-slate-800 md:justify-start md:px-8 ${active
+                            className={`flex items-center justify-center gap-4 py-5 text-slate-800 md:justify-start md:px-16 ${active
                                     ? "border-r-[6px] border-indigo-500 bg-indigo-50"
                                     : "hover:bg-gray-50"
                                 }`}
