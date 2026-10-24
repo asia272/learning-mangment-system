@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useClerk } from "@clerk/nextjs";
-import { Zap, User } from "lucide-react";
 
 type Props = { name: string; imageUrl: string | null };
 
@@ -29,48 +29,60 @@ export function InstructorHeader({ name, imageUrl }: Props) {
     }, []);
 
     return (
-        <header className="flex h-[88px] shrink-0 items-center justify-between border-b border-gray-300 bg-white px-6 md:px-16">
-            <Link href="/instructor" className="flex items-center gap-2">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
-                    <Zap className="h-5 w-5 fill-white" />
-                </span>
-                <span className="text-3xl font-semibold text-slate-900">Edemy</span>
+        <header className="flex h-[74px] shrink-0 items-center justify-between border-b border-[#2525254D] bg-white px-6 md:px-10">
+            <Link href="/instructor" className="flex items-center">
+                <Image
+                    src="/assets/logo.svg"
+                    alt="Edemy"
+                    width={115}
+                    height={34}
+                    priority
+                    className="h-[34px] w-[115px] object-contain"
+                />
             </Link>
 
             <div ref={ref} className="relative flex items-center gap-4">
-                <span className="hidden text-slate-700 sm:inline">Hi! {name}</span>
+                <span className="hidden font-[family-name:var(--font-outfit)] text-[15px] font-normal leading-none text-[#4A4A4A] sm:inline">
+                    Hi! {name}
+                </span>
 
                 <button
                     type="button"
                     aria-label="Account menu"
                     aria-expanded={open}
                     onClick={() => setOpen((o) => !o)}
-                    className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-sky-50 text-slate-700"
+                    className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-sky-50"
                 >
                     {imageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={imageUrl} alt="" className="h-full w-full object-cover" />
                     ) : (
-                        <User className="h-6 w-6" />
+                        <Image
+                            src="/assets/user_icon.svg"
+                            alt=""
+                            width={48}
+                            height={48}
+                            className="h-full w-full object-cover"
+                        />
                     )}
                 </button>
 
                 {open && (
-                    <div className="absolute right-0 top-full z-50 mt-3 w-52 rounded border border-gray-200 bg-white py-3 shadow-sm">
+                    <div className="absolute right-0 top-full z-50 mt-3 w-52 rounded-[6px] border border-[#2525254D] bg-white py-3 shadow-[0px_0px_4px_0px_#0000001A]">
                         <button
                             type="button"
                             onClick={() => {
                                 setOpen(false);
                                 openUserProfile();
                             }}
-                            className="block w-full px-5 py-2 text-left text-slate-800 hover:bg-gray-50"
+                            className="block w-full px-5 py-2 text-lefttext-[15px] font-normal leading-none text-[#4A4A4A] hover:bg-gray-50"
                         >
                             My Profile
                         </button>
                         <button
                             type="button"
                             onClick={() => signOut({ redirectUrl: "/" })}
-                            className="block w-full px-5 py-2 text-left text-slate-800 hover:bg-gray-50"
+                            className="block w-full px-5 py-2 text-left text-[15px] font-normal leading-none text-[#4A4A4A] hover:bg-gray-50"
                         >
                             Logout
                         </button>
