@@ -28,7 +28,7 @@ export default async function CourseDetailPage({
         "block w-full rounded bg-[#0260FF] py-3 text-center font-medium text-white hover:opacity-90";
 
     return (
-        <div className="bg-gradient-to-b from-cyan-100/70 to-white">
+        <div className="bg-gradient-to-b from-[#E6FFFF] to-white">
             <div className="mx-auto grid max-w-[1180px] gap-10 px-6 py-14 lg:grid-cols-[1fr_400px]">
                 {/* ---------- left column ---------- */}
                 <div className="min-w-0">
