@@ -1,16 +1,24 @@
-import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
 
-type Props = { icon: LucideIcon; value: string | number; label: string };
+type Props = { icon: string; value: string | number; label: string };
 
-export function StatCard({ icon: Icon, value, label }: Props) {
+export function StatCard({ icon, value, label }: Props) {
     return (
-        <div className="flex min-w-56 items-center gap-4 rounded-lg border border-blue-500 px-5 py-6">
-            <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
-                <Icon className="h-7 w-7" />
-            </span>
-            <div>
-                <p className="text-3xl font-semibold text-gray-800">{value}</p>
-                <p className="text-gray-500">{label}</p>
+        <div className="flex h-[99px] w-[230px] items-center gap-3 rounded-[6px] border border-[#0260FF] bg-white px-[18px] shadow-[0px_0px_4px_0px_#0000001A]">
+            <Image
+                src={icon}
+                alt={label}
+                width={57}
+                height={57}
+                className="h-[56.62px] w-[56.62px] shrink-0"
+            />
+            <div className="flex flex-col gap-2">
+                <p className="text-2xl font-medium leading-none text-[#252525]">
+                    {value}
+                </p>
+                <p className="text-base font-medium leading-none text-[#252525]">
+                    {label}
+                </p>
             </div>
         </div>
     );

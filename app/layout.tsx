@@ -3,7 +3,11 @@ import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const outfit = Outfit({ subsets: ["latin"] });
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-outfit",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -15,7 +15,7 @@ export function InstructorSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-16 shrink-0 overflow-y-auto border-r border-gray-300 md:w-72">
+        <aside className="w-16 shrink-0 overflow-y-auto border-r border-[#2525254D] bg-white md:w-[251px]">
             <nav className="flex flex-col pt-1">
                 {links.map(({ href, label, icon: Icon }) => {
                     const active =
@@ -25,13 +25,15 @@ export function InstructorSidebar() {
                         <Link
                             key={href}
                             href={href}
-                            className={`flex items-center justify-center gap-4 py-5 text-slate-800 md:justify-start md:px-16 ${active
-                                    ? "border-r-[6px] border-indigo-500 bg-indigo-50"
-                                    : "hover:bg-gray-50"
+                            className={`relative flex h-[47px] items-center justify-center gap-3  text-base font-normal leading-none text-[#252525] md:justify-start md:px-8 ${active ? "bg-[#5F6FFF]/10" : "hover:bg-gray-50"
                                 }`}
                         >
                             <Icon className="h-6 w-6 shrink-0" strokeWidth={1.75} />
                             <span className="hidden md:inline">{label}</span>
+
+                            {active && (
+                                <span className="absolute right-0 top-0 h-[47px] w-[6px] bg-[#5F6FFF]" />
+                            )}
                         </Link>
                     );
                 })}

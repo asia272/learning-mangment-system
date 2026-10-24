@@ -12,13 +12,9 @@ export default async function InstructorDashboardPage() {
     return (
         <div className="space-y-10">
             <div className="flex flex-wrap gap-6">
-                <StatCard icon={Users} value={data.totalEnrolments} label="Total Enrolments" />
-                <StatCard icon={BookOpen} value={data.totalCourses} label="Total Courses" />
-                <StatCard
-                    icon={CircleDollarSign}
-                    value={formatMoney(data.totalEarnings)}
-                    label="Total Earnings"
-                />
+                <StatCard icon="/assets/patients_icon.svg" value={data.totalEnrolments} label="Total Enrolment" />
+                <StatCard icon="/assets/appointments_icon.svg" value={data.totalCourses} label="Total Courses" />
+                <StatCard icon="/assets/earning_icon.svg" value={data.totalEarnings} label="Total Earnings" />
             </div>
 
             <section>
