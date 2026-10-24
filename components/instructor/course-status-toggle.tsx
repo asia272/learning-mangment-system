@@ -27,15 +27,17 @@ export function CourseStatusToggle({ courseId, initialPublished }: Props) {
                 aria-label="Toggle course status"
                 disabled={isPending}
                 onClick={toggle}
-                className={`relative h-7 w-14 rounded-full transition-colors disabled:opacity-60 ${published ? "bg-blue-600" : "bg-gray-300"
+                className={`relative h-[21px] w-[39px] shrink-0 rounded-[20px] transition-colors disabled:opacity-60 ${published ? "bg-[#2563EB]" : "bg-[#CBD5E1]"
                     }`}
             >
                 <span
-                    className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${published ? "left-8" : "left-1"
+                    className={`absolute top-[3px] h-[15px] w-[15px] rounded-full bg-white transition-all ${published ? "left-[20px]" : "left-[4px]"
                         }`}
                 />
             </button>
-            <span className="text-gray-600">{published ? "Live" : "Private"}</span>
+            <span className="inline-block w-[52px] font-[family-name:var(--font-outfit)] text-sm font-normal leading-none text-[#252525B2]">
+                {published ? "Live" : "Private"}
+            </span>
         </div>
     );
 }
