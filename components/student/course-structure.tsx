@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, CirclePlay } from "lucide-react";
+import { AssetIcon } from "@/components/ui/asset-icon";
 import { formatLectureMinutes, formatTotalDuration, plural } from "@/lib/format";
 
 type Chapter = {
@@ -37,8 +37,10 @@ export function CourseStructure({ chapters }: { chapters: Chapter[] }) {
                             className="flex w-full items-center justify-between gap-4 bg-[#F7F9FD] px-4 py-4 text-left text-[#0E0E0E]"
                         >
                             <span className="flex items-center gap-3 font-medium">
-                                <ChevronDown
-                                    className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                <AssetIcon
+                                    name="down_arrow_icon.svg"
+                                    size={14}
+                                    className={`shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
                                 />
                                 {chapter.title}
                             </span>
@@ -55,7 +57,7 @@ export function CourseStructure({ chapters }: { chapters: Chapter[] }) {
                                         className="flex items-center justify-between gap-4 text-sm text-[#565656]"
                                     >
                                         <span className="flex min-w-0 items-center gap-3">
-                                            <CirclePlay className="h-5 w-5 shrink-0 fill-[#565656] text-white" />
+                                            <AssetIcon name="play_icon.svg" size={20} className="shrink-0" />
                                             <span className="truncate">{lecture.title}</span>
                                             {lecture.isPreviewFree && (
                                                 <span className="shrink-0 text-[#0260FF]">Preview</span>

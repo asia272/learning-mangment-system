@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Timer, Clock, BookOpen, Star } from "lucide-react";
 import { getCurrentUser } from "@/lib/current-user";
 import { getCourseDetail } from "@/lib/queries/courses";
 import { sanitizeDescription } from "@/lib/sanitize";
 import { daysLeft, getFinalPrice, isDiscountActive } from "@/lib/pricing";
 import { formatHours, formatMoney, formatTotalDuration, plural } from "@/lib/format";
+import { AssetIcon } from "@/components/ui/asset-icon";
 import { RatingStars } from "@/components/student/rating-stars";
 import { CourseStructure } from "@/components/student/course-structure";
 
@@ -82,7 +82,7 @@ export default async function CourseDetailPage({
                         <div className="p-5">
                             {showTimer && (
                                 <p className="flex items-center gap-2 text-sm text-red-500">
-                                    <Timer className="h-4 w-4" />
+                                    <AssetIcon name="time_left_clock_icon.svg" size={16} />
                                     <span>
                                         <span className="font-medium">
                                             {plural(daysLeft(course.discountEndsAt!), "day")} left
@@ -107,18 +107,18 @@ export default async function CourseDetailPage({
                             </p>
 
                             <div className="mt-4 flex items-center gap-3 text-sm text-[#565656]">
-                                <span className="flex items-center gap-1">
-                                    <Star className="h-4 w-4 fill-[#FB6A3C] text-[#FB6A3C]" />
+                                <span className="flex items-center gap-1.5">
+                                    <AssetIcon name="rating_star.svg" size={16} />
                                     {course.rating.toFixed(1)}
                                 </span>
                                 <span className="h-4 w-px bg-[#E3E3E3]" />
-                                <span className="flex items-center gap-1">
-                                    <Clock className="h-4 w-4" />
+                                <span className="flex items-center gap-1.5">
+                                    <AssetIcon name="time_clock_icon.svg" size={16} />
                                     {formatHours(course.totalSeconds)}
                                 </span>
                                 <span className="h-4 w-px bg-[#E3E3E3]" />
-                                <span className="flex items-center gap-1">
-                                    <BookOpen className="h-4 w-4" />
+                                <span className="flex items-center gap-1.5">
+                                    <AssetIcon name="lesson_icon.svg" size={16} />
                                     {plural(course.totalLectures, "lesson")}
                                 </span>
                             </div>

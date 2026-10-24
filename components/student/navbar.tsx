@@ -9,7 +9,7 @@ export async function StudentNavbar() {
     return (
         <header className="border-b border-[#E3E3E3] bg-white">
             <div className="mx-auto flex h-20 max-w-[1180px] items-center justify-between px-6">
-                <Link href="/courses" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0260FF] text-white">
                         <Zap className="h-5 w-5 fill-white" />
                     </span>
