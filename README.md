@@ -4,7 +4,7 @@
 
 A full-stack LMS where instructors publish video courses and students enroll, pay securely, and learn at their own pace.
 
-[**🌐 Live Demo**](https://your-domain.com) · [Report a Bug](https://github.com/your-username/your-repo/issues) · [Request a Feature](https://github.com/your-username/your-repo/issues)
+[**🌐 Live Demo**](https://learning-mangment-system-one.vercel.app/) · [Report a Bug](https://github.com/your-username/your-repo/issues) · [Request a Feature](https://github.com/your-username/your-repo/issues)
 
 ![Edemy Preview](./public/preview.png)
 
