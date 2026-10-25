@@ -1,6 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "./prisma";
-import { isInstructorEmail } from "./instructor";
+import { isAdminEmail } from "./admin";
 import type { User } from "../generated/prisma/client";
 
 async function getVerifiedClerkEmail() {
@@ -24,24 +24,18 @@ export async function getCurrentUser(): Promise<User | null> {
     const existing = await prisma.user.findUnique({ where: { clerkId: userId } });
 
     if (existing) {
-        const allowed = isInstructorEmail(existing.email);
+        const shouldBeAdmin = isAdminEmail(existing.email);
 
-        // removed from INSTRUCTOR_EMAILS -> lose access immediately
-        if (existing.role === "INSTRUCTOR" && !allowed) {
-            return prisma.user.update({
-                where: { id: existing.id },
-                data: { role: "STUDENT" },
-            });
+        // removed from ADMIN_EMAILS -> lose admin access immediately
+        if (existing.isAdmin && !shouldBeAdmin) {
+            return prisma.user.update({ where: { id: existing.id }, data: { isAdmin: false } });
         }
 
-        // added to INSTRUCTOR_EMAILS later -> promote, but only if Clerk verified the email
-        if (existing.role === "STUDENT" && allowed) {
+        // added to ADMIN_EMAILS -> promote, but only if Clerk verified the email
+        if (!existing.isAdmin && shouldBeAdmin) {
             const info = await getVerifiedClerkEmail();
             if (info?.verified && info.email === existing.email.toLowerCase()) {
-                return prisma.user.update({
-                    where: { id: existing.id },
-                    data: { role: "INSTRUCTOR" },
-                });
+                return prisma.user.update({ where: { id: existing.id }, data: { isAdmin: true } });
             }
         }
 
@@ -53,10 +47,10 @@ export async function getCurrentUser(): Promise<User | null> {
     if (!info) return null;
 
     const { clerkUser, email, verified } = info;
-    const role = verified && isInstructorEmail(email) ? "INSTRUCTOR" : "STUDENT";
+    const isAdmin = verified && isAdminEmail(email);
     const name = `${clerkUser.firstName ?? ""} ${clerkUser.lastName ?? ""}`.trim() || null;
 
-    // a row with this email may already exist (old test account) -> link it
+    // a row with this email may already exist (old test account) -> link it, keep its role
     const byEmail = await prisma.user.findFirst({
         where: { email: { equals: email, mode: "insensitive" } },
     });
@@ -64,13 +58,13 @@ export async function getCurrentUser(): Promise<User | null> {
         if (!verified) return null; // never link an unverified email
         return prisma.user.update({
             where: { id: byEmail.id },
-            data: { clerkId: userId, imageUrl: clerkUser.imageUrl, name: name ?? byEmail.name, role },
+            data: { clerkId: userId, imageUrl: clerkUser.imageUrl, name: name ?? byEmail.name, isAdmin },
         });
     }
 
     try {
         return await prisma.user.create({
-            data: { clerkId: userId, email, name, imageUrl: clerkUser.imageUrl, role },
+            data: { clerkId: userId, email, name, imageUrl: clerkUser.imageUrl, role: "STUDENT", isAdmin },
         });
     } catch {
         // two requests created it at the same moment

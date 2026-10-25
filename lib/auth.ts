@@ -15,3 +15,9 @@ export async function getInstructor() {
     if (!user || user.role !== "INSTRUCTOR") return null;
     return user;
 }
+export async function requireAdmin() {
+    const user = await getCurrentUser();
+    if (!user) redirect("/sign-in");
+    if (!user.isAdmin) redirect("/");
+    return user;
+}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/current-user";
 
 const buttonClass =
@@ -7,7 +8,18 @@ const buttonClass =
 
 export async function StudentNavbar() {
     const user = await getCurrentUser();
+    const isAdmin = !!user?.isAdmin;
     const isInstructor = user?.role === "INSTRUCTOR";
+
+    // only plain students can have an open request
+    let hasPendingApplication = false;
+    if (user && !isAdmin && !isInstructor) {
+        const pending = await prisma.instructorApplication.findFirst({
+            where: { userId: user.id, status: "PENDING" },
+            select: { id: true },
+        });
+        hasPendingApplication = !!pending;
+    }
 
     return (
         <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-400 bg-[#E6FFFF]">
@@ -19,21 +31,45 @@ export async function StudentNavbar() {
 
                 <nav className="flex items-center gap-3 sm:gap-4">
                     {!user ? (
-                        // logged out: one button only (the sign-up page links to sign-in)
                         <Link href="/sign-up" className={buttonClass}>
                             Create Account
                         </Link>
+                    ) : isAdmin ? (
+                        <>
+                            <Link href="/admin" className={buttonClass}>
+                                Dashboard
+                            </Link>
+                            <UserButton />
+                        </>
+                    ) : isInstructor ? (
+                        <>
+                            <Link href="/instructor" className={buttonClass}>
+                                Dashboard
+                            </Link>
+                            <UserButton />
+                        </>
                     ) : (
                         <>
-                            {isInstructor ? (
-                                <Link href="/instructor" className={buttonClass}>
-                                    Dashboard
+                            {hasPendingApplication ? (
+                                <Link
+                                    href="/become-instructor"
+                                    className="flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100 px-3 py-1.5 text-xs font-medium text-amber-800 sm:px-4 sm:text-sm"
+                                >
+                                    <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500" />
+                                    <span className="hidden sm:inline">Instructor request pending</span>
+                                    <span className="sm:hidden">Pending</span>
                                 </Link>
                             ) : (
-                                <Link href="/my-enrollments" className={buttonClass}>
-                                    My Enrollments
+                                <Link
+                                    href="/become-instructor"
+                                    className="hidden text-[15px] text-[#404040] hover:text-[#0E0E0E] md:inline"
+                                >
+                                    Apply for Instructor
                                 </Link>
                             )}
+                            <Link href="/my-enrollments" className={buttonClass}>
+                                My Enrollments
+                            </Link>
                             <UserButton />
                         </>
                     )}

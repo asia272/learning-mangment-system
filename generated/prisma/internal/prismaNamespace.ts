@@ -403,7 +403,8 @@ export const ModelName = {
   Lecture: 'Lecture',
   Enrollment: 'Enrollment',
   CourseReview: 'CourseReview',
-  LectureProgress: 'LectureProgress'
+  LectureProgress: 'LectureProgress',
+  InstructorApplication: 'InstructorApplication'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "course" | "chapter" | "lecture" | "enrollment" | "courseReview" | "lectureProgress"
+    modelProps: "user" | "course" | "chapter" | "lecture" | "enrollment" | "courseReview" | "lectureProgress" | "instructorApplication"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -941,6 +942,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InstructorApplication: {
+      payload: Prisma.$InstructorApplicationPayload<ExtArgs>
+      fields: Prisma.InstructorApplicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InstructorApplicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InstructorApplicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        findFirst: {
+          args: Prisma.InstructorApplicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InstructorApplicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        findMany: {
+          args: Prisma.InstructorApplicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>[]
+        }
+        create: {
+          args: Prisma.InstructorApplicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        createMany: {
+          args: Prisma.InstructorApplicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InstructorApplicationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>[]
+        }
+        delete: {
+          args: Prisma.InstructorApplicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        update: {
+          args: Prisma.InstructorApplicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.InstructorApplicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InstructorApplicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InstructorApplicationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>[]
+        }
+        upsert: {
+          args: Prisma.InstructorApplicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstructorApplicationPayload>
+        }
+        aggregate: {
+          args: Prisma.InstructorApplicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInstructorApplication>
+        }
+        groupBy: {
+          args: Prisma.InstructorApplicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InstructorApplicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InstructorApplicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InstructorApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -988,7 +1063,8 @@ export const UserScalarFieldEnum = {
   imageUrl: 'imageUrl',
   role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isAdmin: 'isAdmin'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1076,6 +1152,21 @@ export const LectureProgressScalarFieldEnum = {
 export type LectureProgressScalarFieldEnum = (typeof LectureProgressScalarFieldEnum)[keyof typeof LectureProgressScalarFieldEnum]
 
 
+export const InstructorApplicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  headline: 'headline',
+  expertise: 'expertise',
+  bio: 'bio',
+  status: 'status',
+  reviewNote: 'reviewNote',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type InstructorApplicationScalarFieldEnum = (typeof InstructorApplicationScalarFieldEnum)[keyof typeof InstructorApplicationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1149,6 +1240,13 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1163,9 +1261,16 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'ApplicationStatus'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+export type EnumApplicationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ApplicationStatus[]'
+ */
+export type ListEnumApplicationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationStatus[]'>
     
 
 
@@ -1340,6 +1445,7 @@ export type GlobalOmitConfig = {
   enrollment?: Prisma.EnrollmentOmit
   courseReview?: Prisma.CourseReviewOmit
   lectureProgress?: Prisma.LectureProgressOmit
+  instructorApplication?: Prisma.InstructorApplicationOmit
 }
 
 /* Types for Logging */

@@ -57,7 +57,8 @@ export const ModelName = {
   Lecture: 'Lecture',
   Enrollment: 'Enrollment',
   CourseReview: 'CourseReview',
-  LectureProgress: 'LectureProgress'
+  LectureProgress: 'LectureProgress',
+  InstructorApplication: 'InstructorApplication'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,7 +85,8 @@ export const UserScalarFieldEnum = {
   imageUrl: 'imageUrl',
   role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isAdmin: 'isAdmin'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -170,6 +172,21 @@ export const LectureProgressScalarFieldEnum = {
 } as const
 
 export type LectureProgressScalarFieldEnum = (typeof LectureProgressScalarFieldEnum)[keyof typeof LectureProgressScalarFieldEnum]
+
+
+export const InstructorApplicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  headline: 'headline',
+  expertise: 'expertise',
+  bio: 'bio',
+  status: 'status',
+  reviewNote: 'reviewNote',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type InstructorApplicationScalarFieldEnum = (typeof InstructorApplicationScalarFieldEnum)[keyof typeof InstructorApplicationScalarFieldEnum]
 
 
 export const SortOrder = {

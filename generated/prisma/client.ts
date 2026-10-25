@@ -76,3 +76,8 @@ export type CourseReview = Prisma.CourseReviewModel
  * 
  */
 export type LectureProgress = Prisma.LectureProgressModel
+/**
+ * Model InstructorApplication
+ * 
+ */
+export type InstructorApplication = Prisma.InstructorApplicationModel

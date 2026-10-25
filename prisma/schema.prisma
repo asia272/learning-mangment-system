@@ -31,6 +31,9 @@ model User {
   enrollments       Enrollment[]
   reviews           CourseReview[]
   lectureProgresses LectureProgress[]
+
+  isAdmin                Boolean                 @default(false)
+  instructorApplications InstructorApplication[]
 }
 
 model Course {
@@ -148,4 +151,26 @@ model LectureProgress {
 
   @@unique([userId, lectureId])
   @@index([lectureId])
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model InstructorApplication {
+  id         String            @id @default(cuid())
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  headline   String
+  expertise  String
+  bio        String
+  status     ApplicationStatus @default(PENDING)
+  reviewNote String?
+  reviewedAt DateTime?
+  createdAt  DateTime          @default(now())
+
+  @@index([userId])
+  @@index([status])
 }
