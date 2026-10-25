@@ -7,6 +7,9 @@ import { useClerk } from "@clerk/nextjs";
 
 type Props = { name: string; imageUrl: string | null };
 
+const menuItemClass =
+    "block w-full px-5 py-2 text-left text-[15px] font-normal leading-none text-[#4A4A4A] hover:bg-gray-50";
+
 export function InstructorHeader({ name, imageUrl }: Props) {
     const { signOut, openUserProfile } = useClerk();
     const [open, setOpen] = useState(false);
@@ -75,14 +78,14 @@ export function InstructorHeader({ name, imageUrl }: Props) {
                                 setOpen(false);
                                 openUserProfile();
                             }}
-                            className="block w-full px-5 py-2 text-lefttext-[15px] font-normal leading-none text-[#4A4A4A] hover:bg-gray-50"
+                            className={menuItemClass}
                         >
                             My Profile
                         </button>
                         <button
                             type="button"
                             onClick={() => signOut({ redirectUrl: "/" })}
-                            className="block w-full px-5 py-2 text-left text-[15px] font-normal leading-none text-[#4A4A4A] hover:bg-gray-50"
+                            className={menuItemClass}
                         >
                             Logout
                         </button>

@@ -1,2 +1,10 @@
 import { SignIn } from "@clerk/nextjs";
-export default function Page() { return <SignIn />; }
+import { AuthShell } from "@/components/auth-shell";
+
+export default function Page() {
+    return (
+        <AuthShell>
+            <SignIn />
+        </AuthShell>
+    );
+}
