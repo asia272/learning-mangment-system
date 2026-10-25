@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en">
         <body className={`${outfit.className} bg-white text-[#0E0E0E] antialiased`}>
           {children}
+          <Toaster position="top-right" richColors closeButton />
         </body>
       </html>
     </ClerkProvider>

@@ -402,7 +402,8 @@ export const ModelName = {
   Chapter: 'Chapter',
   Lecture: 'Lecture',
   Enrollment: 'Enrollment',
-  CourseReview: 'CourseReview'
+  CourseReview: 'CourseReview',
+  LectureProgress: 'LectureProgress'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "course" | "chapter" | "lecture" | "enrollment" | "courseReview"
+    modelProps: "user" | "course" | "chapter" | "lecture" | "enrollment" | "courseReview" | "lectureProgress"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LectureProgress: {
+      payload: Prisma.$LectureProgressPayload<ExtArgs>
+      fields: Prisma.LectureProgressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LectureProgressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LectureProgressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        findFirst: {
+          args: Prisma.LectureProgressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LectureProgressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        findMany: {
+          args: Prisma.LectureProgressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>[]
+        }
+        create: {
+          args: Prisma.LectureProgressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        createMany: {
+          args: Prisma.LectureProgressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LectureProgressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>[]
+        }
+        delete: {
+          args: Prisma.LectureProgressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        update: {
+          args: Prisma.LectureProgressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        deleteMany: {
+          args: Prisma.LectureProgressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LectureProgressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LectureProgressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>[]
+        }
+        upsert: {
+          args: Prisma.LectureProgressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LectureProgressPayload>
+        }
+        aggregate: {
+          args: Prisma.LectureProgressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLectureProgress>
+        }
+        groupBy: {
+          args: Prisma.LectureProgressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LectureProgressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LectureProgressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LectureProgressCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -989,6 +1064,16 @@ export const CourseReviewScalarFieldEnum = {
 } as const
 
 export type CourseReviewScalarFieldEnum = (typeof CourseReviewScalarFieldEnum)[keyof typeof CourseReviewScalarFieldEnum]
+
+
+export const LectureProgressScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  lectureId: 'lectureId'
+} as const
+
+export type LectureProgressScalarFieldEnum = (typeof LectureProgressScalarFieldEnum)[keyof typeof LectureProgressScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1254,6 +1339,7 @@ export type GlobalOmitConfig = {
   lecture?: Prisma.LectureOmit
   enrollment?: Prisma.EnrollmentOmit
   courseReview?: Prisma.CourseReviewOmit
+  lectureProgress?: Prisma.LectureProgressOmit
 }
 
 /* Types for Logging */

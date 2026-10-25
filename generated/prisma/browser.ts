@@ -47,3 +47,8 @@ export type Enrollment = Prisma.EnrollmentModel
  * 
  */
 export type CourseReview = Prisma.CourseReviewModel
+/**
+ * Model LectureProgress
+ * 
+ */
+export type LectureProgress = Prisma.LectureProgressModel

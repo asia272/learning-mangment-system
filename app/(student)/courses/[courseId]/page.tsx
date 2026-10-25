@@ -8,6 +8,7 @@ import { formatHours, formatMoney, formatTotalDuration, plural } from "@/lib/for
 import { AssetIcon } from "@/components/ui/asset-icon";
 import { RatingStars } from "@/components/student/rating-stars";
 import { CourseStructure } from "@/components/student/course-structure";
+import { EnrollButton } from "@/components/student/enroll-button";
 
 export default async function CourseDetailPage({
     params,
@@ -140,10 +141,7 @@ export default async function CourseDetailPage({
                                         Already enrolled - go to My Enrollments
                                     </Link>
                                 ) : (
-                                    // Step 6 turns this into the Stripe checkout button.
-                                    <button type="button" className={buttonClass}>
-                                        Enroll Now
-                                    </button>
+                                    <EnrollButton courseId={course.id} />
                                 )}
                             </div>
 

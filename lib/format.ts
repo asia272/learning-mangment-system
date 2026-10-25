@@ -41,3 +41,13 @@ export function formatHours(seconds: number) {
     const h = Math.round((seconds / 3600) * 10) / 10;
     return `${h} ${h === 1 ? "hour" : "hours"}`;
 }
+// 1 hour, 1 minute  /  1 hour, 5 minutes  /  45 minutes
+export function formatDurationLong(seconds: number) {
+    const total = Math.round(seconds / 60);
+    const h = Math.floor(total / 60);
+    const m = total % 60;
+    const parts: string[] = [];
+    if (h > 0) parts.push(plural(h, "hour"));
+    if (m > 0 || h === 0) parts.push(plural(m, "minute"));
+    return parts.join(", ");
+}
