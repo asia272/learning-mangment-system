@@ -4,12 +4,16 @@
 
 A full-stack LMS where instructors publish video courses and students enroll, pay securely, and learn at their own pace.
 
-[**🌐 Live Demo**](https://learning-mangment-system-one.vercel.app/) · [Report a Bug](https://github.com/asia272/learning-mangment-system/issues) · [Request a Feature](https://github.com/asia272/learning-mangment-system/issues)
-[**Figma Desgine**](https://www.figma.com/design/9wQjNWtbhtib4DcHJThelX/GreatStack-LMS-UI?node-id=0-1&p=f)
+[🌐 Live Demo](https://learning-mangment-system-one.vercel.app/) · [🐛 Report a Bug](https://github.com/asia272/learning-mangment-system/issues) · [💡 Request a Feature](https://github.com/asia272/learning-mangment-system/issues)
+
+### 🎨 Explore the UI Design
+
+[**View Edemy on Figma →**](https://www.figma.com/design/9wQjNWtbhtib4DcHJThelX/GreatStack-LMS-UI?node-id=0-1&p=f)
 
 ![Edemy Preview](./public/preview.png)
 
 </div>
+
 
 ---
 
