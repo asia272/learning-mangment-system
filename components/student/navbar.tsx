@@ -15,16 +15,16 @@ export async function StudentNavbar() {
 
     // the same links are used for desktop and for the mobile menu
     const links = user
-        ? [
-            ...(isInstructor
-                ? [
-                    { label: "Dashboard", href: "/instructor" },
-                    { label: "Add Courses", href: "/instructor/add-course" },
-                ]
-                : []),
-            { label: "Courses", href: "/courses" },
-            { label: "My Enrollments", href: "/my-enrollments" },
-        ]
+        ? isInstructor
+            ? [
+                { label: "Dashboard", href: "/instructor" },
+                { label: "Add Courses", href: "/instructor/add-course" },
+                { label: "Courses", href: "/courses" },
+            ]
+            : [
+                { label: "Courses", href: "/courses" },
+                { label: "My Enrollments", href: "/my-enrollments" },
+            ]
         : [
             { label: "Add Courses", href: "/instructor/add-course" },
             { label: "Login", href: "/sign-in" },

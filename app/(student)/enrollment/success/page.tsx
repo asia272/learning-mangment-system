@@ -81,7 +81,7 @@ export default async function EnrollmentSuccessPage({
                 </>
             ) : (
                 <>
-                    <h1 className="text-3xl font-semibold text-[#0E0E0E]">Payment received</h1>
+                    <h1 className="text-3xl font-semibold kkkkkktext-[#0E0E0E]">Payment received</h1>
                     <p className="mb-8 mt-3 text-[#565656]">We are finishing your enrollment.</p>
                     <CheckoutRefresher />
                 </>

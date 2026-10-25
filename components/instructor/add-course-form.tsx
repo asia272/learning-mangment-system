@@ -3,6 +3,7 @@
 import { useState, useTransition, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, CloudUpload, X } from "lucide-react";
+import { toast } from "sonner";
 import { RichTextEditor } from "./rich-text-editor";
 import { ChapterDialog } from "./chapter-dialog";
 import { LectureDialog, type LectureDraft } from "./lecture-dialog";
@@ -113,12 +114,20 @@ export function AddCourseForm() {
         };
 
         startTransition(async () => {
-            const res = await createCourse(payload);
-            if (!res.success) {
-                setError(res.error);
-                return;
+            const toastId = toast.loading("Saving course...");
+            try {
+                const res = await createCourse(payload);
+                if (!res.success) {
+                    setError(res.error);
+                    toast.error(res.error, { id: toastId });
+                    return;
+                }
+                toast.success("Course added successfully", { id: toastId });
+                router.push("/instructor/my-courses");
+            } catch {
+                setError("Something went wrong. Please try again.");
+                toast.error("Something went wrong. Please try again.", { id: toastId });
             }
-            router.push("/instructor/my-courses");
         });
     }
 

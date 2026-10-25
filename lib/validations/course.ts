@@ -23,6 +23,15 @@ export const courseSchema = z.object({
     thumbnailUrl: z.string().url("Please upload a thumbnail"),
     thumbnailPublicId: z.string().optional(),
     chapters: z.array(chapterSchema).min(1, "Add at least one chapter"),
-});
+}).refine(
+    (c) => {
+        const final = Math.round((c.price * (100 - c.discountPercent)) / 100);
+        return final === 0 || final >= 50; // Stripe's minimum charge is $0.50
+    },
+    {
+        message: "After the discount the price must be $0 (free) or at least $0.50",
+        path: ["price"],
+    }
+);;
 
 export type CourseInput = z.infer<typeof courseSchema>;

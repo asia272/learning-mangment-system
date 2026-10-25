@@ -43,7 +43,7 @@ export async function startCheckout(courseId: string): Promise<Result> {
 
     if (amount === 0) {
         await createEnrollment({ userId: user.id, courseId: course.id, amountPaid: 0 });
-        return { success: true, url: "/my-enrollments" };
+        return { success: true, url: `/enrollment/success?course=${course.id}` };
     }
     if (amount < 50) {
         return { success: false, error: "Stripe cannot charge less than $0.50." };
@@ -69,7 +69,7 @@ export async function startCheckout(courseId: string): Promise<Result> {
             ],
             metadata: { userId: user.id, courseId: course.id },
             payment_intent_data: { metadata: { userId: user.id, courseId: course.id } },
-            success_url: `${appUrl}/my-enrollments?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${appUrl}/enrollment/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${appUrl}/courses/${course.id}`,
         });
 

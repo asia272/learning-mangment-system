@@ -1,40 +1,21 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/current-user";
-import { getMyEnrollments, findEnrollmentBySession } from "@/lib/queries/enrollments";
+import { getMyEnrollments } from "@/lib/queries/enrollments";
 import { formatDurationLong } from "@/lib/format";
-import { CheckoutRefresher } from "@/components/student/checkout-refresher";
 
-export default async function MyEnrollmentsPage({
-    searchParams,
-}: {
-    searchParams: Promise<{ checkout?: string; session_id?: string }>;
-}) {
+export default async function MyEnrollmentsPage() {
     const user = await getCurrentUser();
     if (!user) redirect("/sign-in?redirect_url=/my-enrollments");
+    if (user.role === "INSTRUCTOR") redirect("/instructor");
 
-    const sp = await searchParams;
     const enrollments = await getMyEnrollments(user.id);
-
-    // coming back from Stripe: is the webhook done yet?
-    let banner: "done" | "pending" | null = null;
-    if (sp.checkout === "success" && typeof sp.session_id === "string") {
-        const found = await findEnrollmentBySession(user.id, sp.session_id);
-        banner = found ? "done" : "pending";
-    }
 
     return (
         <main className="mx-auto max-w-[1180px] px-6 pb-20 pt-12">
             <h1 className="text-3xl font-semibold text-[#0E0E0E]">My Enrollments</h1>
 
             <div className="mt-8">
-                {banner === "pending" && <CheckoutRefresher />}
-                {banner === "done" && (
-                    <div className="mb-6 rounded border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-                        Payment successful. You are enrolled.
-                    </div>
-                )}
-
                 {enrollments.length === 0 ? (
                     <div className="rounded-lg border border-[#E3E3E3] p-10 text-center text-[#565656]">
                         <p>You have not enrolled in any course yet.</p>
@@ -47,51 +28,75 @@ export default async function MyEnrollmentsPage({
                     </div>
                 ) : (
                     <div className="overflow-x-auto border border-[#E3E3E3]">
-                        <table className="w-full min-w-[720px] text-left">
+                        <table className="w-full min-w-[860px] text-left">
                             <thead className="border-b border-[#E3E3E3] text-[#0E0E0E]">
                                 <tr>
                                     <th className="px-6 py-5 font-semibold">Course</th>
                                     <th className="px-4 py-5 font-semibold">Duration</th>
                                     <th className="px-4 py-5 font-semibold">Students</th>
+                                    <th className="px-4 py-5 font-semibold">Completed</th>
                                     <th className="px-4 py-5 font-semibold">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="text-[#565656]">
-                                {enrollments.map((e) => (
-                                    <tr key={e.id} className="border-b border-[#E3E3E3] last:border-b-0">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img
-                                                    src={e.course.thumbnailUrl}
-                                                    alt=""
-                                                    className="h-14 w-24 shrink-0 rounded object-cover"
-                                                />
+                                {enrollments.map((e) => {
+                                    const percent = e.totalLectures
+                                        ? Math.round((e.completedLectures / e.totalLectures) * 100)
+                                        : 0;
+                                    const finished = e.totalLectures > 0 && e.completedLectures === e.totalLectures;
+
+                                    return (
+                                        <tr key={e.id} className="border-b border-[#E3E3E3] last:border-b-0">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-4">
+                                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                    <img
+                                                        src={e.course.thumbnailUrl}
+                                                        alt=""
+                                                        className="h-14 w-24 shrink-0 rounded object-cover"
+                                                    />
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="line-clamp-2 text-[#0E0E0E]">{e.course.title}</p>
+                                                        <div
+                                                            className="mt-2 h-1.5 w-full max-w-[280px] overflow-hidden rounded-full bg-gray-200"
+                                                            role="progressbar"
+                                                            aria-valuenow={percent}
+                                                            aria-valuemin={0}
+                                                            aria-valuemax={100}
+                                                        >
+                                                            <div
+                                                                className="h-full rounded-full bg-sky-500"
+                                                                style={{ width: `${percent}%` }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                {formatDurationLong(e.totalSeconds)}
+                                            </td>
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                {e.totalStudents}{" "}
+                                                <span className="text-sm">
+                                                    {e.totalStudents === 1 ? "student" : "students"}
+                                                </span>
+                                            </td>
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                {e.completedLectures} / {e.totalLectures}{" "}
+                                                <span className="text-sm">Lectures</span>
+                                            </td>
+                                            <td className="px-4 py-4">
                                                 <Link
-                                                    href={`/courses/${e.course.id}`}
-                                                    className="line-clamp-2 text-[#0E0E0E] hover:underline"
+                                                    href={`/player/${e.course.id}`}
+                                                    className={`inline-block whitespace-nowrap rounded-[2px] px-8 py-3 text-white hover:opacity-90 ${finished ? "bg-green-600" : "bg-[#2563EB]"
+                                                        }`}
                                                 >
-                                                    {e.course.title}
+                                                    {finished ? "Completed" : "On Going"}
                                                 </Link>
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-4 py-4">
-                                            {formatDurationLong(e.totalSeconds)}
-                                        </td>
-                                        <td className="whitespace-nowrap px-4 py-4">
-                                            {e.totalStudents}{" "}
-                                            <span className="text-sm">{e.totalStudents === 1 ? "student" : "students"}</span>
-                                        </td>
-                                        <td className="px-4 py-4">
-                                            <Link
-                                                href={`/courses/${e.course.id}`}
-                                                className="inline-block whitespace-nowrap rounded-[2px] bg-[#2563EB] px-8 py-3 text-white hover:bg-blue-700"
-                                            >
-                                                View Course
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

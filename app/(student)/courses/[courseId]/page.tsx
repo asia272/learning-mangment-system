@@ -137,8 +137,8 @@ export default async function CourseDetailPage({
                                         You teach this course
                                     </p>
                                 ) : course.isEnrolled ? (
-                                    <Link href="/my-enrollments" className={buttonClass}>
-                                        Already enrolled - go to My Enrollments
+                                    <Link href={`/player/${course.id}`} className={buttonClass}>
+                                        Go to course
                                     </Link>
                                 ) : (
                                     <EnrollButton courseId={course.id} />
