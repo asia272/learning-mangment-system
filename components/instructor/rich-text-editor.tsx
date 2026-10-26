@@ -28,14 +28,15 @@ export function RichTextEditor({ value, onChange }: Props) {
         editorProps: {
             attributes: {
                 class:
-                    "min-h-44 px-4 py-3 focus:outline-none " +
+                    // explicit colors so the text is always clearly readable
+                    "min-h-44 bg-white px-4 py-3 text-gray-900 caret-gray-900 focus:outline-none " +
                     "[&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_h3]:font-semibold " +
                     "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_a]:text-blue-600 [&_a]:underline",
             },
         },
     });
 
-    if (!editor) return <div className="h-60 rounded border border-gray-300" />;
+    if (!editor) return <div className="h-60 rounded border border-gray-300 bg-white" />;
 
     const btn = (active: boolean) =>
         `rounded p-2 ${active ? "bg-gray-200" : "hover:bg-gray-100"}`;
@@ -66,12 +67,12 @@ export function RichTextEditor({ value, onChange }: Props) {
     }
 
     return (
-        <div className="rounded border border-gray-300">
-            <div className="flex flex-wrap items-center gap-1 border-b border-gray-300 px-3 py-2 text-gray-700">
+        <div className="overflow-hidden rounded border border-gray-300 bg-white">
+            <div className="flex flex-wrap items-center gap-1 border-b border-gray-300 bg-white px-3 py-2 text-gray-700">
                 <select
                     value={block}
                     onChange={(e) => onBlockChange(e.target.value)}
-                    className="mr-3 rounded bg-transparent px-2 py-1 text-sm"
+                    className="mr-3 rounded bg-white px-2 py-1 text-sm text-gray-800"
                 >
                     <option value="p">Normal</option>
                     <option value="h1">Heading 1</option>
