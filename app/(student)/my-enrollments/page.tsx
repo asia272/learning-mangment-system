@@ -7,9 +7,11 @@ import { formatDurationLong } from "@/lib/format";
 export default async function MyEnrollmentsPage() {
     const user = await getCurrentUser();
     if (!user) redirect("/sign-in?redirect_url=/my-enrollments");
-    if (user.role === "INSTRUCTOR") redirect("/instructor");
 
     const enrollments = await getMyEnrollments(user.id);
+
+
+
 
     return (
         <main className="mx-auto max-w-[1180px] px-6 pb-20 pt-12">

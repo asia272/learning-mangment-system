@@ -43,6 +43,12 @@ export async function StudentNavbar() {
                         </>
                     ) : isInstructor ? (
                         <>
+                            <Link
+                                href="/my-enrollments"
+                                className="hidden text-[15px] text-[#404040] hover:text-[#0E0E0E] sm:inline"
+                            >
+                                My Enrollments
+                            </Link>
                             <Link href="/instructor" className={buttonClass}>
                                 Dashboard
                             </Link>
