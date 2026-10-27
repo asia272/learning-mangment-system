@@ -4,27 +4,17 @@
 
 A production-ready, role-based LMS where instructors publish video courses, students enroll and learn, and admins keep the platform in check.
 
-[🌐 Live Demo](https://learning-mangment-system-one.vercel.app/) · [🎬 Watch the Video](https://github.com/asia272/learning-mangment-system/blob/main/public/preview.mp4) · [🐛 Report a Bug](https://github.com/asia272/learning-mangment-system/issues) · [💡 Request a Feature](https://github.com/asia272/learning-mangment-system/issues)
+[🌐 Live Demo](https://learning-mangment-system-one.vercel.app/) · [🐛 Report a Bug](https://github.com/asia272/learning-mangment-system/issues) · [💡 Request a Feature](https://github.com/asia272/learning-mangment-system/issues)
 
 ### 🎨 Explore the UI Design
 
 [**View Edemy on Figma →**](https://www.figma.com/design/9wQjNWtbhtib4DcHJThelX/GreatStack-LMS-UI?node-id=0-1&p=f)
 
-[![Edemy Preview — click to watch the demo video](./public/preview.png)](https://github.com/asia272/learning-mangment-system/blob/main/public/preview.mp4)
-
-<sub>▶ Click the image to watch the full walkthrough.</sub>
+![Edemy Preview](./public/preview.png)
 
 </div>
 
 ---
-
-## 🎬 Demo Video
-
-<!-- INLINE VIDEO: drag public/preview.mp4 into the GitHub README editor and paste the generated link here -->
-
-A short silent walkthrough of the full flow: a student signs up, buys a course, and learns; applies to teach; an admin approves; and the new instructor publishes a course.
-
-[▶ Watch the demo video](https://github.com/asia272/learning-mangment-system/blob/main/public/preview.mp4)
 
 ## 📖 About
 
