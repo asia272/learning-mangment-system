@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🎓 Edemy — Learning Management System
+# 🎓 Edemy — Learning Management System.
 
 A production-ready, role-based LMS where instructors publish video courses, students enroll and learn, and admins keep the platform in check.
 
